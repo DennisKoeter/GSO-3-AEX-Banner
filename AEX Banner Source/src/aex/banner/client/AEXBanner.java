@@ -49,10 +49,10 @@ public void start(Stage primaryStage) {
             long lag = now - prevUpdate;
             if (lag >= NANO_TICKS) {
                 // calculate new location of text
-                textPosition -= 10;
+                textPosition -= 5;
                 if((text.getLayoutBounds().getWidth() + textPosition) < 0)
                     textPosition = WIDTH;
-                text.relocate(textPosition,0);
+                text.relocate(textPosition, 0);
                 prevUpdate = now;
             }
         }
