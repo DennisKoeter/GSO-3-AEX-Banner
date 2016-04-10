@@ -52,7 +52,7 @@ public class MockEffectenbeurs implements IEffectenbeurs{
     }
     
     /**
-     * starting the timer, every 2 seconds the stock exchange is randomly changed
+     * starting the timer, every 5 seconds the stock exchange is randomly changed
      */
     private void start() {
         this.timer.schedule(new TimerTask() {
@@ -61,7 +61,7 @@ public class MockEffectenbeurs implements IEffectenbeurs{
                 for(IFonds f : fondsen)
                    ((Fonds) f).setKoers(random.nextDouble() + random.nextInt(100));
             }      
-        }, 0, 2000);
+        }, 0, 5000);
     }
     
     /**
