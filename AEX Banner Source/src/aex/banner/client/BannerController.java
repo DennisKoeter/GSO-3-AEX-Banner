@@ -5,19 +5,18 @@ import aex.banner.source.*;
 
 public class BannerController {
 
-private AEXBanner banner;
+    private AEXBanner banner;
     private IEffectenbeurs effectenbeurs;
     private Timer pollingTimer;
 
-public BannerController(AEXBanner banner) {
-
+    public BannerController(AEXBanner banner) {
         this.banner = banner;
         this.effectenbeurs = new MockEffectenbeurs();
 
-// Start polling timer: update banner every two seconds
+        // Start polling timer: update banner every two seconds
         pollingTimer = new Timer();
         // TODO
-}
+    }
 
     // Stop banner controller
     public void stop() {
