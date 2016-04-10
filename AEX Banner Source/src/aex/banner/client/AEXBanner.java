@@ -19,63 +19,64 @@ public static final int NANO_TICKS = 20000000;
 private Text text;
 private double textLength;
 private double textPosition;
-    private BannerController controller;
-    private AnimationTimer animationTimer;
+private BannerController controller;
+private AnimationTimer animationTimer;
 
 @Override
 public void start(Stage primaryStage) {
+    controller = new BannerController(this);
 
-        controller = new BannerController(this);
+    Font font = new Font("Arial", HEIGHT);
+    text = new Text();
+    text.setFont(font);
+    text.setFill(Color.BLACK);
 
-Font font = new Font("Arial", HEIGHT);
-text = new Text();
-text.setFont(font);
-text.setFill(Color.BLACK);
+    Pane root = new Pane();
+    root.getChildren().add(text);
+    Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-Pane root = new Pane();
-root.getChildren().add(text);
- Scene scene = new Scene(root, WIDTH, HEIGHT);
+    primaryStage.setTitle("AEX banner");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    primaryStage.toFront();
 
- primaryStage.setTitle("AEX banner");
-primaryStage.setScene(scene);
- primaryStage.show();
- primaryStage.toFront();
+    // Start animation: text moves from right to left
+    animationTimer = new AnimationTimer() {
+        private long prevUpdate;
 
-
-// Start animation: text moves from right to left
-animationTimer = new AnimationTimer() {
-private long prevUpdate;
-
-@Override
-public void handle(long now) {
- long lag = now - prevUpdate;
-if (lag >= NANO_TICKS) {
- // calculate new location of text
- // TODO
-text.relocate(textPosition,0);
-			prevUpdate = now;
- }
- }
-@Override
- public void start() {
-prevUpdate = System.nanoTime();
- textPosition = WIDTH;
-text.relocate(textPosition, 0);
-setKoersen("Nothing to display");
- super.start();
- }
-};
-animationTimer.start();
+        @Override
+        public void handle(long now) {
+            long lag = now - prevUpdate;
+            if (lag >= NANO_TICKS) {
+                // calculate new location of text
+                textPosition -= 10;
+                if((text.getLayoutBounds().getWidth() + textPosition) < 0)
+                    textPosition = WIDTH;
+                text.relocate(textPosition,0);
+                prevUpdate = now;
+            }
+        }
+        
+        @Override
+        public void start() {
+        prevUpdate = System.nanoTime();
+        textPosition = WIDTH;
+        text.relocate(textPosition, 0);
+        setKoersen("Nothing to display");
+        super.start();
+        }
+    };
+    animationTimer.start();
 }
 
 public void setKoersen(String koersen) {
- text.setText(koersen);
- textLength = text.getLayoutBounds().getWidth();
+    text.setText(koersen);
+    textLength = text.getLayoutBounds().getWidth();
 }
 
-    @Override
-    public void stop() {
-        animationTimer.stop();
-        controller.stop();
+@Override
+public void stop() {
+    animationTimer.stop();
+    controller.stop();
     }
 }
